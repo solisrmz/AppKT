@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "237020982118",
+    "firebase_url": "https://justrememberit-1ec1d.firebaseio.com",
+    "project_id": "justrememberit-1ec1d",
+    "storage_bucket": "justrememberit-1ec1d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237020982118:android:3dd628a59385495cfe76a7",
+        "android_client_info": {
+          "package_name": "com.example.songapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237020982118-n7g72vag8v843mbt0l0o6dbp003fr29q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.songapp",
+            "certificate_hash": "49766c5e59be350412cba2be0ffd0ee01af9bf37"
+          }
+        },
+        {
+          "client_id": "237020982118-hrb533m1160iao390bpf994h7tkll4j6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDf7kqmjd3oYTFrFobXcRkObpY6csSAJMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237020982118-hrb533m1160iao390bpf994h7tkll4j6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -20,10 +20,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btnMain.setOnClickListener(){
-            saluda()
+            newRemember()
         }
     }
-    fun saluda(){
+    fun newRemember(){
         val dialog = LayoutInflater.from(this).inflate(R.layout.dialogo, null)
         val mBuilder = AlertDialog.Builder(this)
             .setView(dialog)

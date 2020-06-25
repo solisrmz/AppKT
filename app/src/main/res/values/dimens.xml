@@ -13,5 +13,9 @@
     //Para los textos
     <dimen name="splash_text">28sp</dimen>
 
+    //Para el login y registro
+    <dimen name="anc_edit">350dp</dimen>
+    <dimen name="al_edit">50dp</dimen>
+
 
 </resources>
