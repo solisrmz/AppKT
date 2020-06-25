@@ -6,16 +6,27 @@
     android:padding="10dp">
 
     <ImageView
-        android:layout_width="@dimen/imagen_dialogo"
-        android:layout_height="@dimen/imagen_dialogo"
+        android:layout_width="@dimen/imagen_splash"
+        android:layout_height="@dimen/imagen_splash"
         android:layout_gravity="center"
-        android:background="@drawable/cherk"/>
+        android:background="@drawable/brain"/>
+    <EditText
+        android:id="@+id/autor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
+    <EditText
+        android:id="@+id/remember"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingresa tu recordatorio"/>
+
     <Button
         android:id="@+id/cerrar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/closeDialog"
-        android:text="cerrar"
+        android:background="@color/bntDialog"
+        android:text="GUARDAR"
         android:textColor="@color/textButtonColor" />
 
 </LinearLayout>

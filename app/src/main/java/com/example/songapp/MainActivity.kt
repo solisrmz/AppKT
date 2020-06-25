@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         val dialog = LayoutInflater.from(this).inflate(R.layout.dialogo, null)
         val mBuilder = AlertDialog.Builder(this)
             .setView(dialog)
-            .setTitle("Bienvenido")
+            .setTitle("Ingresar un nuevo recordatorio")
         val  mAlertDialog = mBuilder.show()
         dialog.cerrar.setOnClickListener(){
             mAlertDialog.dismiss()

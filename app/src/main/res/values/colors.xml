@@ -2,8 +2,9 @@
 <resources>
     <color name="colorPrimary">#F2D1C9</color>
     <color name="colorPrimaryDark">#A7BDD9</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#A7BDD9</color>
     <color name="textButtonColor">#FFFF</color>
     <color name="closeDialog">#E64A4A</color>
     <color name="splashBackground">#F2D1C9</color>
+    <color name="bntDialog">#A7BDD9</color>
 </resources>
