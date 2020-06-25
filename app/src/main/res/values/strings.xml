@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SongApp</string>
+    <string name="app_name">Just Remember It!</string>
 
     //Para los botones
     <string name="btn1">¡Pushame!</string>

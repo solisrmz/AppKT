@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    //Para el splash
+    <dimen name="paddin_splash">100dp</dimen>
+    <dimen name="imagen_splash">100dp</dimen>
+    //Botón del diálogo
     <dimen name="imagen_dialogo">200dp</dimen>
+
+    //Main
+    <dimen name="pading_float">500dp</dimen>
+    <dimen name="padding_left">300dp</dimen>
+
+    //Para los textos
+    <dimen name="splash_text">28sp</dimen>
+
+
 </resources>

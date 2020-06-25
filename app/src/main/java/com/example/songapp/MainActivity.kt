@@ -23,14 +23,11 @@ class MainActivity : AppCompatActivity() {
             saluda()
         }
     }
-
     fun saluda(){
-        val nombre = findViewById<EditText>(R.id.nombre);
-        val nuevosaludo:String =nombre.getText().toString();
         val dialog = LayoutInflater.from(this).inflate(R.layout.dialogo, null)
         val mBuilder = AlertDialog.Builder(this)
             .setView(dialog)
-            .setTitle("Bienvenido $nuevosaludo")
+            .setTitle("Bienvenido")
         val  mAlertDialog = mBuilder.show()
         dialog.cerrar.setOnClickListener(){
             mAlertDialog.dismiss()
