@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SongApp</string>
+
+    //Para los botones
+    <string name="btn1">¡Pushame!</string>
+
+    //Para los edittext
+    <string name="ingresaNombre">Ingresa tú nombre</string>
+</resources>
