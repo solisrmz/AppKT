@@ -11,16 +11,27 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialogo.view.*
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var database: FirebaseDatabase
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val mail:String = intent.getStringExtra("mail")
 
-        saludo.setText("Hola $mail")
+        auth = FirebaseAuth.getInstance()
+        val user: FirebaseUser = auth.currentUser!!
+        val name: String = user.uid
+
+        saludo.setText("Hola "+user.email)
         btnMain.setOnClickListener(){
             newRemember()
         }
