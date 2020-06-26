@@ -69,4 +69,9 @@ class Login : AppCompatActivity() {
     fun login(v:View){
         loginUser()
     }
+
+    fun register(v:View){
+        val intent = Intent(this, Register::class.java)
+        startActivity(intent)
+    }
 }
