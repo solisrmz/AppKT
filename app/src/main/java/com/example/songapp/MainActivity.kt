@@ -38,11 +38,11 @@ class MainActivity : AppCompatActivity() {
         btnMain.setOnClickListener(){
             newRemember()
         }
-        var db : Query = FirebaseDatabase.getInstance().getReference("task")
+        databaseRef = FirebaseDatabase.getInstance().getReference("task${user.uid}")
         taskItemList = mutableListOf<Task>()
         adapter = RememberAdpater(this, taskItemList!!)
         listViewItems!!.adapter = adapter
-        db.addListenerForSingleValueEvent(itemListener)
+        databaseRef.addListenerForSingleValueEvent(itemListener)
     }
     private var itemListener: ValueEventListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -85,14 +85,12 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Ingresar un nuevo recordatorio")
         val  mAlertDialog = mBuilder.show()
         dialog.cerrar.setOnClickListener(){
-            //Declare and Initialise the Task
-            database = FirebaseDatabase.getInstance()
-            databaseReference = database.reference.child("task")
             val task = Task.create()
             //Set Task Description and isDone Status
             task.taskDesc = dialog.remember.text.toString()
-            task.taskAut = user.email
-
+            task.taskAut = user.uid
+            database = FirebaseDatabase.getInstance()
+            databaseReference = database.reference.child("task${user.uid}")
             val newTask= databaseReference.child("task").push()
             task.objectId = newTask.key
             newTask.setValue(task)
