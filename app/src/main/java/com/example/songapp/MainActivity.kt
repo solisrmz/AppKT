@@ -1,9 +1,12 @@
 package com.example.songapp
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +16,7 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialogo.view.*
 
+@Suppress("UNREACHABLE_CODE")
 class MainActivity : AppCompatActivity() {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var database: FirebaseDatabase
@@ -94,8 +98,29 @@ class MainActivity : AppCompatActivity() {
             val newTask= databaseReference.child("task").push()
             task.objectId = newTask.key
             newTask.setValue(task)
-            mAlertDialog.dismiss()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
             Toast.makeText(this, "Se ha guardado tu recordatorio", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item?.itemId){
+            R.id.info-> {
+                Toast.makeText(this, "Info de la app", Toast.LENGTH_SHORT).show()
+            }
+            R.id.logout->{
+                auth.signOut()
+                val intent = Intent(this, Login::class.java)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
