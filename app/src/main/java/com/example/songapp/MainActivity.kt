@@ -18,7 +18,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val mail:String = intent.getStringExtra("mail")
 
+        saludo.setText("Hola $mail")
         btnMain.setOnClickListener(){
             newRemember()
         }
