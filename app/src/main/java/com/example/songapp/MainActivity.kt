@@ -1,44 +1,83 @@
 package com.example.songapp
 
 import android.app.AlertDialog
-import android.app.Dialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.ListView
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialogo.*
 import kotlinx.android.synthetic.main.dialogo.view.*
-import kotlinx.android.synthetic.main.dialogo.view.remember
 
 class MainActivity : AppCompatActivity() {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var database: FirebaseDatabase
+    private lateinit var databaseRef: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
+
+    var taskItemList: MutableList<Task>? = null
+    lateinit var adapter: RememberAdpater
+    private var listViewItems: ListView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        listViewItems = findViewById<ListView>(R.id.items_list)
+
         auth = FirebaseAuth.getInstance()
         user = auth.currentUser!!
-        val name: String = user.uid
-        saludo.setText("Hola "+user.email)
+        val mail = user.email
+
         btnMain.setOnClickListener(){
             newRemember()
         }
+        var db : Query = FirebaseDatabase.getInstance().getReference("task")
+        taskItemList = mutableListOf<Task>()
+        adapter = RememberAdpater(this, taskItemList!!)
+        listViewItems!!.adapter = adapter
+        db.addListenerForSingleValueEvent(itemListener)
     }
+    private var itemListener: ValueEventListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            addDataToList(dataSnapshot)
+        }
+        override fun onCancelled(databaseError: DatabaseError) {
+            // Getting Item failed, log a message
+            Log.w("MainActivity", "loadItem:onCancelled", databaseError.toException())
+        }
+    }
+
+    private fun addDataToList(dataSnapshot: DataSnapshot) {
+        val items = dataSnapshot.children.iterator()
+        //Check if current database contains any collection
+        if (items.hasNext()) {
+            val toDoListindex = items.next()
+            val itemsIterator = toDoListindex.children.iterator()
+
+            //check if the collection has any to do items or not
+            while (itemsIterator.hasNext()) {
+                //get current item
+                val currentItem = itemsIterator.next()
+                val task = Task.create()
+                //get current data in a map
+                val map = currentItem.value as HashMap<String, Any>
+                //key will return Firebase ID
+                task.objectId = currentItem.key
+                task.taskDesc = map["taskDesc"] as String?
+                taskItemList!!.add(task);
+            }
+        }
+        //alert adapter that has changed
+        adapter.notifyDataSetChanged()
+    }
+
     fun newRemember(){
         val dialog = LayoutInflater.from(this).inflate(R.layout.dialogo, null)
         val mBuilder = AlertDialog.Builder(this)
@@ -46,14 +85,13 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Ingresar un nuevo recordatorio")
         val  mAlertDialog = mBuilder.show()
         dialog.cerrar.setOnClickListener(){
-            database = FirebaseDatabase.getInstance()
-            databaseReference = database.reference.child("Users/${user.uid}")
             //Declare and Initialise the Task
+            database = FirebaseDatabase.getInstance()
+            databaseReference = database.reference.child("task")
             val task = Task.create()
             //Set Task Description and isDone Status
             task.taskDesc = dialog.remember.text.toString()
             task.taskAut = user.email
-            task.done = false
 
             val newTask= databaseReference.child("task").push()
             task.objectId = newTask.key
