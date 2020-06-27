@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
             //Set Task Description and isDone Status
             task.taskDesc = dialog.remember.text.toString()
             task.taskAut = user.uid
+            task.done = false
             database = FirebaseDatabase.getInstance()
             databaseReference = database.reference.child("task${user.uid}")
             val newTask= databaseReference.child("task").push()

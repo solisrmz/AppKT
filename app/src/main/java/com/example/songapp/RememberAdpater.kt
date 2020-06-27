@@ -15,6 +15,7 @@ class RememberAdpater (context: Context, toDoItemList: MutableList<Task>) : Base
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val objectId: String = itemList.get(position).objectId as String
         val itemText: String = itemList.get(position).taskDesc as String
+        val done: Boolean = itemList.get(position).done as Boolean
         val view: View
         val vh: ListRowHolder
         if (convertView == null) {
@@ -26,6 +27,7 @@ class RememberAdpater (context: Context, toDoItemList: MutableList<Task>) : Base
             vh = view.tag as ListRowHolder
         }
         vh.label.text = itemText
+        vh.isDone.isChecked = done
         return view
     }
     override fun getItem(index: Int): Any {
@@ -39,6 +41,7 @@ class RememberAdpater (context: Context, toDoItemList: MutableList<Task>) : Base
     }
     private class ListRowHolder(row: View?) {
         val label: TextView = row!!.findViewById<TextView>(R.id.tv_item_text) as TextView
+        val isDone: CheckBox = row!!.findViewById<CheckBox>(R.id.cb_item_is_done) as CheckBox
         val ibDeleteObject: ImageButton = row!!.findViewById<ImageButton>(R.id.iv_cross) as ImageButton
     }
 }
