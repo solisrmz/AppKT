@@ -1,6 +1,7 @@
 package com.example.songapp
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,10 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
 
-class RememberAdpater (context: Context, toDoItemList: MutableList<Task>) : BaseAdapter(){
+class ItemAdapter (context: Context, toDoItemList: MutableList<Remember>) : BaseAdapter(){
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
     private var itemList = toDoItemList
+    private var rowListener: ItemRowListener = context as ItemRowListener
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val objectId: String = itemList.get(position).objectId as String
         val itemText: String = itemList.get(position).taskDesc as String
@@ -28,6 +30,14 @@ class RememberAdpater (context: Context, toDoItemList: MutableList<Task>) : Base
         }
         vh.label.text = itemText
         vh.isDone.isChecked = done
+
+        vh.isDone.setOnClickListener {
+            rowListener.modifyItemState(objectId, !done)
+        }
+        vh.ibDeleteObject.setOnClickListener {
+            rowListener.onItemDelete(objectId)
+        }
+
         return view
     }
     override fun getItem(index: Int): Any {

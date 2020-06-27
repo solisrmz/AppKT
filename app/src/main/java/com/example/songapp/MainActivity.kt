@@ -17,15 +17,16 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialogo.view.*
 
 @Suppress("UNREACHABLE_CODE")
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ItemRowListener {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var database: FirebaseDatabase
     private lateinit var databaseRef: DatabaseReference
+    private lateinit var mDatabase: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
 
-    var taskItemList: MutableList<Task>? = null
-    lateinit var adapter: RememberAdpater
+    var rememberItemList: MutableList<Remember>? = null
+    lateinit var adapter: ItemAdapter
     private var listViewItems: ListView? = null
 
 
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        mDatabase = FirebaseDatabase.getInstance().reference
         listViewItems = findViewById<ListView>(R.id.items_list)
 
         auth = FirebaseAuth.getInstance()
@@ -43,8 +45,8 @@ class MainActivity : AppCompatActivity() {
             newRemember()
         }
         databaseRef = FirebaseDatabase.getInstance().getReference("task${user.uid}")
-        taskItemList = mutableListOf<Task>()
-        adapter = RememberAdpater(this, taskItemList!!)
+        rememberItemList = mutableListOf<Remember>()
+        adapter = ItemAdapter(this, rememberItemList!!)
         listViewItems!!.adapter = adapter
         databaseRef.addListenerForSingleValueEvent(itemListener)
     }
@@ -69,13 +71,13 @@ class MainActivity : AppCompatActivity() {
             while (itemsIterator.hasNext()) {
                 //get current item
                 val currentItem = itemsIterator.next()
-                val task = Task.create()
+                val task = Remember.create()
                 //get current data in a map
                 val map = currentItem.value as HashMap<String, Any>
                 //key will return Firebase ID
                 task.objectId = currentItem.key
                 task.taskDesc = map["taskDesc"] as String?
-                taskItemList!!.add(task);
+                rememberItemList!!.add(task);
             }
         }
         //alert adapter that has changed
@@ -89,7 +91,7 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Ingresar un nuevo recordatorio")
         val  mAlertDialog = mBuilder.show()
         dialog.cerrar.setOnClickListener(){
-            val task = Task.create()
+            val task = Remember.create()
             //Set Task Description and isDone Status
             task.taskDesc = dialog.remember.text.toString()
             task.taskAut = user.uid
@@ -123,5 +125,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun modifyItemState(itemObjectId: String, isDone: Boolean) {
+        val itemReference = mDatabase.child("task${user.uid}/task").child(itemObjectId)
+        itemReference.child("done").setValue(isDone);
+    }
+
+    //delete an item
+    override fun onItemDelete(itemObjectId: String) {
+        //get child reference in database via the ObjectID
+        val itemReference = mDatabase.child("task${user.uid}/task").child(itemObjectId)
+        //deletion can be done via removeValue() method
+        itemReference.removeValue()
     }
 }

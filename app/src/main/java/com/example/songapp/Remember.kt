@@ -1,8 +1,8 @@
 package com.example.songapp
 
-class Task {
+class Remember {
     companion object Factory {
-        fun create(): Task = Task()
+        fun create(): Remember = Remember()
     }
 
     var objectId: String? = null
