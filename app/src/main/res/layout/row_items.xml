@@ -27,7 +27,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="@android:color/transparent"
+        android:background="@drawable/basura_dos"
         android:gravity="end"
-        app:srcCompat="@android:drawable/btn_dialog" />
+        />
 </RelativeLayout>
